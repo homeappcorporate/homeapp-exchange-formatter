@@ -1,0 +1,15 @@
+{
+    "name": "homeapp/homeapp-exchange-formatter",
+    "description": "Bundle for format response and request",
+   "autoload": {
+        "psr-4": {
+            "Homeapp\\Exchange\\": "Exchange/src/"
+        }
+    },
+    "require": {
+        "php": "^7.1.3",
+        "guzzlehttp/guzzle": "^6.3",
+        "jms/serializer-bundle": "^3.2",
+        "symfony/framework-bundle": "4.3"
+    }
+}

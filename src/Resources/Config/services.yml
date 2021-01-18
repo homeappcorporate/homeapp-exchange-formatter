@@ -1,0 +1,33 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+        public: true
+
+    homeapp.api_response.listener:
+        class: Homeapp\UtilsBundle\Listener\ApiResponseListener
+        arguments:
+            - '@jms_serializer.serializer'
+        tags:
+            - { name: kernel.event_listener, event: kernel.view }
+            - { name: kernel.event_listener, event: kernel.exception }
+
+    homeapp.guzzle.message_formatter:
+        public: false
+        class: Homeapp\UtilsBundle\Logger\NoBinaryFormatter
+        arguments: ["{hostname} {req_header_User-Agent} - [{date_common_log}] \"{method} {target} HTTP/{version}\" {code} \n{response}\n--------\n{error}"]
+
+    homeapp.guzzle.post_message_formatter:
+        public: false
+        class: Homeapp\UtilsBundle\Logger\NoBinaryFormatter
+        arguments: ["{hostname} {req_header_User-Agent} - [{date_common_log}] \"{method} {target} HTTP/{version}\" {code} \n{req_body}\n--------\n{response}\n--------\n{error}"]
+
+    homeapp.orm.fix_schema_create_listener:
+        class: Homeapp\UtilsBundle\ORM\FixSchemaCreateListener
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    homeapp.serializer.identical_naming_strategy:
+        class: Homeapp\UtilsBundle\Serializer\IdenticalStrategy
