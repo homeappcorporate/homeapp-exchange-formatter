@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Homeapp\Exchange\Listener;
+namespace Homeapp\ExchangeBundle\Listener;
 
-use Homeapp\UtilsBundle\DTO\ApiResponse;
+use Homeapp\ExchangeBundle\DTO\ApiResponse;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,7 +35,7 @@ class ApiResponseListener
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        $e = $event->getException();
+        $e = $event->getThrowable();
         $result = ApiResponse::createError($e->getMessage(), 500, ['API']);
         $event->setResponse($this->getResponse($result));
     }

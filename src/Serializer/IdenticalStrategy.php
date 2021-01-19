@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Homeapp\Exchange\Serializer;
+namespace Homeapp\ExchangeBundle\Serializer;
 
 use JMS\Serializer\Metadata\PropertyMetadata;
 use JMS\Serializer\Naming\PropertyNamingStrategyInterface;

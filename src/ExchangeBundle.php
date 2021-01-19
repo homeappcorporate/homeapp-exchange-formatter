@@ -1,8 +1,9 @@
 <?php
 
-namespace Homeapp\Exchange;
+namespace Homeapp\ExchangeBundle;
 
-use Homeapp\Exchange\DependencyInjection\ApiResponseExtension;
+use Homeapp\ExchangeBundle\DependencyInjection\ApiResponseExtension;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class ExchangeBundle extends Bundle

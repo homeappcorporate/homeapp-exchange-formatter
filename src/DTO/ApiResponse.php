@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Homeapp\UtilsBundle\DTO;
+namespace Homeapp\ExchangeBundle\DTO;
 
 use JMS\Serializer\Annotation as Serializer;
 
@@ -45,6 +45,9 @@ class ApiResponse
      */
     private $error;
 
+    /**
+     * @param mixed $data
+     */
     public function __construct(
         $data,
         bool $success = true,
@@ -62,6 +65,7 @@ class ApiResponse
     public static function createError(string $message, int $code, array $groups = []): ApiResponse
     {
         $obj = new self(['error' => $message], false, $groups, $code);
+        /** @psalm-suppress DeprecatedProperty */
         $obj->error = $message;
 
         return $obj;
@@ -70,6 +74,7 @@ class ApiResponse
     public static function createWait(string $message, int $waitSeconds, array $groups = []): ApiResponse
     {
         $obj = new self(['error' => $message], false, $groups, 503, ['retry-after' => $waitSeconds]);
+        /** @psalm-suppress DeprecatedProperty */
         $obj->error = $message;
 
         return $obj;
@@ -80,17 +85,20 @@ class ApiResponse
         return $this->success;
     }
 
+    /** @return mixed  */
     public function getData()
     {
         return $this->data;
     }
 
+    /** @return mixed|null  */
     public function getMeta()
     {
         return $this->meta;
     }
 
-    public function setMeta($meta)
+    /** @param mixed|null $meta  */
+    public function setMeta($meta): void
     {
         $this->meta = $meta;
     }
