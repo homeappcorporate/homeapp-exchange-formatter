@@ -3,7 +3,7 @@
     "description": "Bundle for format response and request",
     "autoload": {
         "psr-4": {
-            "Homeapp\\ExchangeBundle\\": "ExchangeBundle/src/"
+            "Homeapp\\ExchangeBundle\\": "src/"
         }
     },
     "require": {
