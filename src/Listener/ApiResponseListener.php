@@ -10,6 +10,7 @@ use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ApiResponseListener
 {
@@ -36,7 +37,17 @@ class ApiResponseListener
     public function onKernelException(ExceptionEvent $event): void
     {
         $e = $event->getThrowable();
-        $result = ApiResponse::createError($e->getMessage(), 500, ['API']);
+        $statusCode = 500;
+
+        if ($e instanceof HttpException) {
+            $statusCode = $e->getStatusCode();
+        }
+
+        $result = ApiResponse::createError(
+            $e->getMessage(),
+            $statusCode,
+            ['API']
+        );
         $event->setResponse($this->getResponse($result));
     }
 
