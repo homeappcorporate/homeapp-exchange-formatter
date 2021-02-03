@@ -16,3 +16,11 @@ services:
 
     homeapp.serializer.identical_naming_strategy:
         class: Homeapp\ExchangeBundle\Serializer\IdenticalStrategy
+
+    Homeapp\ExchangeBundle\HTTP\DtoArgumentValueResolver:
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
+    Homeapp\ExchangeBundle\HTTP\SentFieldsResolver:
+        tags:
+            - { name: controller.argument_value_resolver, priority: 51 }
