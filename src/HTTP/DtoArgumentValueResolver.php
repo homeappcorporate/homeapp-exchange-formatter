@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Homeapp\ExchangeBundle\HTTP;
 
+use JMS\Serializer\Exception\RuntimeException;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,6 +36,7 @@ class DtoArgumentValueResolver implements ArgumentValueResolverInterface
     }
 
     /**
+     * @throws RuntimeException
      * @throws BadRequestException
      */
     public function resolve(Request $request, ArgumentMetadata $argument)

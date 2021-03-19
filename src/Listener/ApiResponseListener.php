@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Homeapp\ExchangeBundle\Listener;
 
 use Homeapp\ExchangeBundle\DTO\ApiResponse;
+use JMS\Serializer\Exception\LogicException;
+use JMS\Serializer\Exception\RuntimeException;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,6 +26,10 @@ class ApiResponseListener
         $this->serializer = $serializer;
     }
 
+    /**
+     * @throws LogicException
+     * @throws RuntimeException
+     */
     public function onKernelView(ViewEvent $event): void
     {
         $result = $event->getControllerResult();
@@ -34,6 +40,10 @@ class ApiResponseListener
         $event->setResponse($response);
     }
 
+    /**
+     * @throws LogicException
+     * @throws RuntimeException
+     */
     public function onKernelException(ExceptionEvent $event): void
     {
         $e = $event->getThrowable();
@@ -51,6 +61,10 @@ class ApiResponseListener
         $event->setResponse($this->getResponse($result));
     }
 
+    /**
+     * @throws LogicException
+     * @throws RuntimeException
+     */
     public function getResponse(ApiResponse $result): JsonResponse
     {
         $groups = !empty($result->getContextGroups()) ? $result->getContextGroups() : ['API'];
