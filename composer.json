@@ -9,7 +9,8 @@
     "require": {
         "php": ">=7.4",
         "jms/serializer-bundle": "^3.2",
-        "symfony/framework-bundle": "^5.2"
+        "symfony/framework-bundle": "^5.2",
+        "symfony/validator": "^5.2"
     },
     "require-dev": {
         "vimeo/psalm": "^4.3",
