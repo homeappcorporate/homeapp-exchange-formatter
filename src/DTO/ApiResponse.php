@@ -37,15 +37,6 @@ class ApiResponse
     private $headers;
 
     /**
-     * @deprecated используется лишь для соответствия старому АПИ
-     * @Serializer\Groups({"OLD_API"})
-     * @Serializer\SerializedName("message")
-     * @Serializer\Type("string")
-     * @var mixed используется лишь для соответствия старому АПИ
-     */
-    private $error;
-
-    /**
      * @param mixed $data
      */
     public function __construct(
@@ -65,8 +56,6 @@ class ApiResponse
     public static function createError(string $message, int $code, array $groups = []): ApiResponse
     {
         $obj = new self(['error' => $message], false, $groups, $code);
-        /** @psalm-suppress DeprecatedProperty */
-        $obj->error = $message;
 
         return $obj;
     }
@@ -74,8 +63,6 @@ class ApiResponse
     public static function createWait(string $message, int $waitSeconds, array $groups = []): ApiResponse
     {
         $obj = new self(['error' => $message], false, $groups, 503, ['retry-after' => $waitSeconds]);
-        /** @psalm-suppress DeprecatedProperty */
-        $obj->error = $message;
 
         return $obj;
     }
