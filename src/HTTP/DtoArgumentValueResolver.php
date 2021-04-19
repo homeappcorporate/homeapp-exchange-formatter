@@ -10,16 +10,17 @@ use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\ConstraintViolation;
 
 class DtoArgumentValueResolver implements ArgumentValueResolverInterface
 {
     private $serializer;
 
-    private ValidatorInterface $validator;
+    private array $exclusions = [];
 
+    private ValidatorInterface $validator;
 
     public function __construct(
         SerializerInterface $serializer,
@@ -35,7 +36,7 @@ class DtoArgumentValueResolver implements ArgumentValueResolverInterface
         if (in_array($typeInUppercase, $this->exclusions)) {
             return false;
         }
-        if(false === strpos($typeInUppercase, 'DTO')) {
+        if (false === strpos($typeInUppercase, 'DTO')) {
             return false;
         }
         if ($request->isMethod(Request::METHOD_GET)) {
@@ -45,6 +46,7 @@ class DtoArgumentValueResolver implements ArgumentValueResolverInterface
         if (empty($content)) {
             return false;
         }
+
         return true;
     }
 
@@ -54,7 +56,6 @@ class DtoArgumentValueResolver implements ArgumentValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
-
         /** @psalm-suppress ArgumentTypeCoercion */
         $dto = $this->serializer->deserialize(
             (string)$request->getContent(),
