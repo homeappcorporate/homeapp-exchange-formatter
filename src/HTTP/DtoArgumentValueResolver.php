@@ -29,10 +29,23 @@ class DtoArgumentValueResolver implements ArgumentValueResolverInterface
         $this->validator = $validator;
     }
 
-    public function supports(Request $request, ArgumentMetadata $argument)
+    public function supports(Request $request, ArgumentMetadata $argument): bool
     {
         $typeInUppercase = strtoupper((string)$argument->getType());
-        return false !== strpos($typeInUppercase, 'DTO');
+        if (in_array($typeInUppercase, $this->exclusions)) {
+            return false;
+        }
+        if(false === strpos($typeInUppercase, 'DTO')) {
+            return false;
+        }
+        if ($request->isMethod(Request::METHOD_GET)) {
+            return false;
+        }
+        $content = (string)$request->getContent();
+        if (empty($content)) {
+            return false;
+        }
+        return true;
     }
 
     /**
